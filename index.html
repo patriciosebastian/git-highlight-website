@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-50 text-gray-900">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="git-highlight: A Zsh plugin to highlight Git commands and subcommands in real-time."/>
+  <title>Git Highlight</title>
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md">
+    <div class="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between">
+      <h1 class="text-2xl font-semibold tracking-tight">
+        <a href="#" class="hover:text-indigo-600">git-highlight</a>
+      </h1>
+      <nav>
+        <a href="https://github.com/patriciosebastian/git-highlight" target="_blank" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow">
+    <section class="py-10">
+      <div class="max-w-5xl mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-4">Real-Time Git Command Highlighting</h2>
+        <p class="mb-6 leading-relaxed text-gray-700">
+          <strong>git-highlight</strong> is a Zsh plugin that visually guides you through your Git commands as you type.
+          It highlights <span class="text-green-700 font-medium">valid</span> and 
+          <span class="text-yellow-600 font-medium">partially matched</span> Git subcommands, 
+          and flags <span class="bg-red-600 text-white font-medium px-1 rounded">invalid</span> ones right away.
+        </p>
+        <p class="mb-6 leading-relaxed text-gray-700">
+          Perfect for those late-night sessions when you're not at your sharpest. With <strong>git-highlight</strong>, you'll catch typos before running the wrong command.
+        </p>
+
+        <div class="bg-white shadow p-6 rounded mb-8">
+          <h3 class="text-xl font-semibold mb-2">Example:</h3>
+          <p class="text-gray-700 mb-4">
+            Typing:
+            <code class="bg-gray-100 px-1 py-0.5 rounded">git sta</code>  
+            will highlight <code class="text-green-700">git</code> in green and <code class="text-yellow-600">sta</code> in yellow,
+            hinting that you meant <code class="text-green-700">status</code>.
+          </p>
+          <p class="text-gray-700 mb-0">
+            Once you complete it to:
+            <code class="bg-gray-100 px-1 py-0.5 rounded">git status</code>, 
+            both words will be in green, confirming a valid command.
+          </p>
+        </div>
+
+        <!-- Installation -->
+        <h3 class="text-2xl font-bold mb-4">Installation</h3>
+        <ol class="list-decimal list-inside text-gray-700 mb-8 space-y-2">
+          <li>
+            Clone the repo:
+            <pre class="bg-gray-100 p-2 rounded overflow-x-auto text-sm">
+git clone https://github.com/patriciosebastian/git-highlight.git ~/.git-highlight
+            </pre>
+          </li>
+          <li>
+            Source the script in your <code>.zshrc</code>:
+            <pre class="bg-gray-100 p-2 rounded overflow-x-auto text-sm">
+echo "source ~/.git-highlight/git-highlight.zsh" >> ~/.zshrc
+source ~/.zshrc
+            </pre>
+          </li>
+        </ol>
+
+        <p class="mb-6 text-gray-700">
+          From now on, every new terminal session will have real-time Git command highlighting enabled.
+        </p>
+
+        <!-- Using a Plugin Manager -->
+        <h3 class="text-2xl font-bold mb-4">Using a Zsh Plugin Manager</h3>
+        <p class="mb-6 text-gray-700">
+          If you're using a Zsh plugin manager like <a href="https://github.com/zplug/zplug" class="text-indigo-600 hover:underline" target="_blank">zplug</a>, just add:
+        </p>
+        <pre class="bg-gray-100 p-2 rounded overflow-x-auto text-sm">
+zplug "patriciosebastian/git-highlight"
+        </pre>
+
+        <!-- Customization -->
+        <h3 class="text-2xl font-bold mb-4">Customization</h3>
+        <p class="mb-4 text-gray-700">
+          Inside <code>git-highlight.zsh</code>, you'll find:
+        </p>
+        <p class="mb-4 text-gray-700">
+          **Git Commands:**  
+          Modify the <code>validGitCommands</code> array to add or remove recognized commands:
+        </p>
+        <pre class="bg-gray-100 p-2 rounded overflow-x-auto text-sm">
+typeset -a validGitCommands=(git init commit push pull status checkout merge branch fetch rebase diff add log stash pop restore reset)
+        </pre>
+        <p class="mb-6 text-gray-700">
+          Add more:
+          <pre class="bg-gray-100 p-2 rounded overflow-x-auto text-sm">
+validGitCommands+=(blame cherry-pick worktree)
+          </pre>
+        </p>
+
+        <p class="mb-4 text-gray-700">
+          **Shell Operators:**  
+          If you want to handle more or fewer operators, update the case block:
+        </p>
+        <pre class="bg-gray-100 p-2 rounded overflow-x-auto text-sm">
+case "$word" in
+  '&&'|'||'|';'|'&')
+    expect_subcommand=false
+    ;;
+esac
+        </pre>
+        <p class="text-gray-700 mb-6">Feel free to tweak these as needed for your workflow.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200">
+    <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between text-gray-600 text-sm">
+      <p class="mb-3 md:mb-0">
+        &copy; <span id="year"></span> git-highlight by <a href="https://github.com/patriciosebastian" target="_blank" class="text-indigo-600 hover:underline">Patricio Sebastian</a>
+      </p>
+      <div>
+        <a href="https://github.com/patriciosebastian/git-highlight" target="_blank" class="text-indigo-600 hover:underline">View on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('#year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
